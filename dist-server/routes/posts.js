@@ -9,6 +9,8 @@ var _express = _interopRequireDefault(require("express"));
 
 var _regeneratorRuntime = require("regenerator-runtime");
 
+var _databaseConnection = _interopRequireDefault(require("../databaseConnection"));
+
 var _authencationJWT = require("../middleware/authencationJWT");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -18,10 +20,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var router = _express["default"].Router();
-/* GET users listing. */
+/* GET lastest-post */
 
 
-router.get('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.get("/api/lastest-posts", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
     var data;
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -29,7 +31,7 @@ router.get('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return runQuery("SELECT * FROM Users ");
+            return (0, _databaseConnection["default"])("SELECT TOP 10 * FROM Posts ORDER BY Id DESC");
 
           case 2:
             data = _context.sent;
@@ -49,9 +51,9 @@ router.get('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-/* GET user detail. */
+/*GET post detail*/
 
-router.get('/api/:id', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.get("/api/:id", /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res, next) {
     var id, data;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -60,7 +62,7 @@ router.get('/api/:id', _authencationJWT.authenticateJWT, /*#__PURE__*/function (
           case 0:
             id = req.params.id;
             _context2.next = 3;
-            return runQuery("select from Users where id =".concat(id));
+            return (0, _databaseConnection["default"])("select from Posts where id =".concat(id));
 
           case 3:
             data = _context2.sent;
@@ -80,9 +82,9 @@ router.get('/api/:id', _authencationJWT.authenticateJWT, /*#__PURE__*/function (
     return _ref2.apply(this, arguments);
   };
 }());
-/* CREATE user . */
+/* CREATE post */
 
-router.post('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
     var postData, data;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -91,7 +93,7 @@ router.post('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
           case 0:
             postData = req.body;
             _context3.next = 3;
-            return runQuery("insert into Users values()");
+            return (0, _databaseConnection["default"])("insert into Posts values()");
 
           case 3:
             data = _context3.sent;
@@ -111,26 +113,25 @@ router.post('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }());
-/* UPDATE user. */
+/* UPDATE post */
 
-router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var postData, data;
+    var data;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            postData = req.body;
-            _context4.next = 3;
-            return runQuery("UPDATE Posts SET column1 = value1, column2 = value2, ... WHERE condition");
+            _context4.next = 2;
+            return (0, _databaseConnection["default"])("UPDATE Posts SET column1 = value1, column2 = value2, ... WHERE condition");
 
-          case 3:
+          case 2:
             data = _context4.sent;
             res.send({
               data: data
             });
 
-          case 5:
+          case 4:
           case "end":
             return _context4.stop();
         }
@@ -142,9 +143,9 @@ router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }());
-/* Delete user . */
+/* DELETE post*/
 
-router["delete"]('/api/:id', /*#__PURE__*/function () {
+router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res, next) {
     var id, data;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -153,7 +154,7 @@ router["delete"]('/api/:id', /*#__PURE__*/function () {
           case 0:
             id = req.params.id;
             _context5.next = 3;
-            return runQuery("DELETE FROM Posts WHERE id=".concat(id));
+            return (0, _databaseConnection["default"])("DELETE FROM Posts WHERE id=".concat(id));
 
           case 3:
             data = _context5.sent;

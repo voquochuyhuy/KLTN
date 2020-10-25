@@ -2,7 +2,7 @@
 
 
 CREATE TABLE Users (
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 CreationDate Date,
 	 DisplayName nvarchar(255),
 	 LastAccessDate Date,
@@ -17,8 +17,9 @@ CREATE TABLE Users (
 	 Account varchar(255),
 	 PasswordHash text,
 );
+
 CREATE TABLE Posts (
-     Id int primary key,
+     Id int IDENTITY(1, 1) primary key,
 	 PostTypeId int,
 	 ParentId int,
 	 CreationDate Date,
@@ -39,16 +40,18 @@ CREATE TABLE Posts (
 	FOREIGN KEY (OwnerUserId) REFERENCES Users(Id)
 );
 CREATE TABLE PostFeedback(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 PostId int,
+	 UserId int,
 	 IsAnonymous int,
 	 Content text,
 	 CreationDate Date,
 	 isAcceptedAnswer int,
-	FOREIGN KEY (PostId) REFERENCES Posts(Id)
+	FOREIGN KEY (PostId) REFERENCES Posts(Id),
+	FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 CREATE TABLE Comments(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 PostId int,
 	 Score int,
 	 Content Text,
@@ -59,11 +62,11 @@ CREATE TABLE Comments(
 	FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 CREATE TABLE VoteType (
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 VoteValue int,
 );
 CREATE TABLE Votes (
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 PostId int,
 	 VoteTypeId int,
 	 UserId int,
@@ -74,12 +77,12 @@ CREATE TABLE Votes (
 	FOREIGN KEY (VoteTypeId) REFERENCES VoteType(Id)
 );
 CREATE TABLE Tags(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 TagName nvarchar(255),
 	 CountNumber int,
 );
 CREATE TABLE Badges (
-	Id int primary key,
+	Id int IDENTITY(1, 1) primary key,
 	UserId int,
 	Content nvarchar(255),
 	DateAchieved Date ,
@@ -88,7 +91,7 @@ CREATE TABLE Badges (
 );
 
 CREATE TABLE  PostLinks (
-	Id int  primary key,
+	Id int IDENTITY(1, 1)  primary key,
 	CreationDate Date,
 	PostId int,
 	RelatedPostId int,
@@ -96,7 +99,7 @@ CREATE TABLE  PostLinks (
 	FOREIGN KEY (PostId) REFERENCES Posts(Id)
 );
 CREATE TABLE  PostHistory (
-	Id int  primary key,
+	Id int IDENTITY(1, 1) primary key,
 	PostHistoryTypeId int ,
 	PostId int,
 	RevisionGUID int,
@@ -109,18 +112,18 @@ CREATE TABLE  PostHistory (
 	FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 CREATE TABLE  ReviewRejectionReasons(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 Name nvarchar(255),
 	 Descriptions Text,
 	 PostTypeId int,
 );
 CREATE TABLE  ReviewTaskStates(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 ReviewTaskStatesName nvarchar(255),
 	 Descriptions Text,
 );
 CREATE TABLE  PendingFlags(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 FlagTypeId int,
 	 PostId int,
 	 CreationDate Date ,
@@ -131,7 +134,7 @@ CREATE TABLE  PendingFlags(
 	FOREIGN KEY (PostId) REFERENCES Posts(Id)
 );
 CREATE TABLE  ReviewTasks(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 ReviewTaskTypeId int,
 	 CreationDate Date,
 	 DeletionDate Date,
@@ -141,7 +144,7 @@ CREATE TABLE  ReviewTasks(
 	FOREIGN KEY (PostId) REFERENCES Posts(Id)
 );
 CREATE TABLE  SuggestedEdits(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 PostId int,
 	 CreationDate int,
 	 ApprovalDate Date,
@@ -155,7 +158,7 @@ CREATE TABLE  SuggestedEdits(
 	FOREIGN KEY (PostId) REFERENCES Posts(Id)
 );
 CREATE TABLE  ReviewTaskResults(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 ReviewTaskId int,
 	 ReviewTaskResultTypeId int,
 	 CreationDate Date,
@@ -163,7 +166,7 @@ CREATE TABLE  ReviewTaskResults(
 	 Comment Text,
 )
 CREATE TABLE  SuggestedEditVotes(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 SuggestedEditId int,
 	 UserId int,
 	 VoteTypeId int,
@@ -173,7 +176,7 @@ CREATE TABLE  SuggestedEditVotes(
 	FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 CREATE TABLE  TagSynonyms(
-	 Id int primary key,
+	 Id int IDENTITY(1, 1) primary key,
 	 SourceTagName nvarchar(255),
 	 TargetTagName nvarchar(255),
 	 CreationDate int,
