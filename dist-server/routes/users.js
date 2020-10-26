@@ -60,7 +60,7 @@ router.get('/api/:id', _authencationJWT.authenticateJWT, /*#__PURE__*/function (
           case 0:
             id = req.params.id;
             _context2.next = 3;
-            return runQuery("select from Users where id =".concat(id));
+            return runQuery("select from Users where id ='".concat(id, "'"));
 
           case 3:
             data = _context2.sent;
@@ -122,7 +122,7 @@ router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
           case 0:
             postData = req.body;
             _context4.next = 3;
-            return runQuery("UPDATE Posts SET column1 = value1, column2 = value2, ... WHERE condition");
+            return runQuery("UPDATE Users SET column1 = value1, column2 = value2, ... WHERE condition");
 
           case 3:
             data = _context4.sent;
@@ -153,7 +153,7 @@ router["delete"]('/api/:id', /*#__PURE__*/function () {
           case 0:
             id = req.params.id;
             _context5.next = 3;
-            return runQuery("DELETE FROM Posts WHERE id=".concat(id));
+            return runQuery("DELETE FROM Users WHERE id=".concat(id));
 
           case 3:
             data = _context5.sent;

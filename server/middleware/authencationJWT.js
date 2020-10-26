@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 
 const accessTokenSecret = 'KLTN';
+const refreshTokenSecret = 'KLTN';
+const refreshTokens = [];
+
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
@@ -20,4 +23,4 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-export {authenticateJWT,accessTokenSecret};
+export {authenticateJWT,accessTokenSecret,refreshTokenSecret,refreshTokens};

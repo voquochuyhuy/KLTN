@@ -12,7 +12,7 @@ router.get('/api',authenticateJWT,async function(req, res, next) {
 /* GET user detail. */
 router.get('/api/:id',authenticateJWT,async function(req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`select from Users where id =${id}`);
+  const data = await runQuery(`select from Users where id ='${id}'`);
   res.send({ data: data });
 });
 
@@ -26,14 +26,14 @@ router.post('/api',authenticateJWT,async function(req, res, next) {
 /* UPDATE user. */
 router.put('/api',authenticateJWT,async function(req, res, next) {
   const postData = req.body;
-  const data = await runQuery(`UPDATE Posts SET column1 = value1, column2 = value2, ... WHERE condition`);
+  const data = await runQuery(`UPDATE Users SET column1 = value1, column2 = value2, ... WHERE condition`);
   res.send({ data: data });
 });
 
 /* Delete user . */
 router.delete('/api/:id',async function(req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`DELETE FROM Posts WHERE id=${id}`);
+  const data = await runQuery(`DELETE FROM Users WHERE id=${id}`);
   res.send({ data: data });
 });
 

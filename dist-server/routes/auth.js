@@ -27,7 +27,7 @@ var router = _express["default"].Router();
 
 router.post('/api/login', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
-    var _req$body, username, password, data, accessToken;
+    var _req$body, username, password, data, accessToken, refreshToken;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -43,11 +43,21 @@ router.post('/api/login', /*#__PURE__*/function () {
 
             if (data) {
               accessToken = _jsonwebtoken["default"].sign({
-                username: data.recordset[0].DisplayName,
+                username: data.recordset[0].username,
                 role: 1
-              }, _authencationJWT.accessTokenSecret);
+              }, _authencationJWT.accessTokenSecret, {
+                expiresIn: '20m'
+              });
+              refreshToken = _jsonwebtoken["default"].sign({
+                username: data.recordset[0].username,
+                role: 1
+              }, _authencationJWT.refreshTokenSecret);
+
+              _authencationJWT.refreshTokens.push(refreshToken);
+
               res.json({
-                accessToken: accessToken
+                accessToken: accessToken,
+                refreshToken: refreshToken
               });
             } else {
               res.send('Username or password incorrect');
@@ -65,25 +75,51 @@ router.post('/api/login', /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
+router.post('/token', function (req, res) {
+  var token = req.body.token;
+
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  if (!_authencationJWT.refreshTokens.includes(token)) {
+    return res.sendStatus(403);
+  }
+
+  _jsonwebtoken["default"].verify(token, _authencationJWT.refreshTokenSecret, function (err, user) {
+    if (err) {
+      return res.sendStatus(403);
+    }
+
+    var accessToken = _jsonwebtoken["default"].sign({
+      username: user.username,
+      role: 1
+    }, _authencationJWT.accessTokenSecret, {
+      expiresIn: '20m'
+    });
+
+    res.json({
+      accessToken: accessToken
+    });
+  });
+});
 /* LOGOUT */
 
-router.put('/api/logout', /*#__PURE__*/function () {
+router.post('/api/logout', /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res, next) {
-    var data;
+    var token;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return (0, _databaseConnection["default"])('select * from Posts');
+            token = req.body.token;
+            _authencationJWT.refreshTokens = (_authencationJWT.refreshTokens.filter(function (token) {
+              return t !== token;
+            }), function () {
+              throw new Error('"' + "refreshTokens" + '" is read-only.');
+            }());
 
           case 2:
-            data = _context2.sent;
-            res.send({
-              data: data
-            });
-
-          case 4:
           case "end":
             return _context2.stop();
         }
