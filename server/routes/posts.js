@@ -14,7 +14,7 @@ router.get("/api/lastest-posts", async function (req, res, next) {
 /*GET post detail*/
 router.get("/api/:id", async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`select from Posts where id =${id}`);
+  const data = await runQuery(`select from Posts where id ='${id}'`);
   res.send({ data: data });
 });
 
@@ -34,7 +34,7 @@ router.put("/api/:id",authenticateJWT, async function (req, res, next) {
 /* DELETE post*/
 router.delete("/api/:id",authenticateJWT, async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`DELETE FROM Posts WHERE id=${id}`);
+  const data = await runQuery(`DELETE FROM Posts WHERE id='${id}'`);
   res.send({ data: data });
 });
 export default router;

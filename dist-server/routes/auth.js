@@ -27,18 +27,17 @@ var router = _express["default"].Router();
 
 router.post('/api/login', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
-    var _req$body, username, password, data, accessToken, refreshToken;
+    var _req$body, username, password, data, accessToken, refreshToken, userData;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _req$body = req.body, username = _req$body.username, password = _req$body.password;
-            console.log("select * from Users where Account = \"".concat(username, "\" and PasswordHash = \"").concat(password, "\""));
-            _context.next = 4;
+            _context.next = 3;
             return (0, _databaseConnection["default"])("SELECT * FROM Users WHERE Account = '".concat(username, "' AND CONVERT(VARCHAR, PasswordHash) = '").concat(password, "'"));
 
-          case 4:
+          case 3:
             data = _context.sent;
 
             if (data) {
@@ -55,15 +54,19 @@ router.post('/api/login', /*#__PURE__*/function () {
 
               _authencationJWT.refreshTokens.push(refreshToken);
 
+              userData = data.recordset[0];
+              userData.PasswordHash = '';
+              userData.Account = '';
               res.json({
                 accessToken: accessToken,
-                refreshToken: refreshToken
+                refreshToken: refreshToken,
+                userData: userData
               });
             } else {
               res.send('Username or password incorrect');
             }
 
-          case 6:
+          case 5:
           case "end":
             return _context.stop();
         }

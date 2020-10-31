@@ -62,7 +62,7 @@ router.get("/api/:id", /*#__PURE__*/function () {
           case 0:
             id = req.params.id;
             _context2.next = 3;
-            return (0, _databaseConnection["default"])("select from Posts where id =".concat(id));
+            return (0, _databaseConnection["default"])("select from Posts where id ='".concat(id, "'"));
 
           case 3:
             data = _context2.sent;
@@ -154,7 +154,7 @@ router["delete"]("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/func
           case 0:
             id = req.params.id;
             _context5.next = 3;
-            return (0, _databaseConnection["default"])("DELETE FROM Posts WHERE id=".concat(id));
+            return (0, _databaseConnection["default"])("DELETE FROM Posts WHERE id='".concat(id, "'"));
 
           case 3:
             data = _context5.sent;

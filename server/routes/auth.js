@@ -9,17 +9,18 @@ var router = express.Router();
 /* LOGIN */
 router.post('/api/login', async function(req, res, next) {
     const { username, password } = req.body;
-    console.log(`select * from Users where Account = "${username}" and PasswordHash = "${password}"`)
     const data = await runQuery(`SELECT * FROM Users WHERE Account = '${username}' AND CONVERT(VARCHAR, PasswordHash) = '${password}'`);
     if (data) {
         const accessToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, accessTokenSecret, { expiresIn: '20m' });
         const refreshToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, refreshTokenSecret);
-
         refreshTokens.push(refreshToken);
-
+        const userData = data.recordset[0];
+        userData.PasswordHash = '';
+        userData.Account = '';
         res.json({
             accessToken,
-            refreshToken
+            refreshToken,
+            userData
         });
     } else {
         res.send('Username or password incorrect');
