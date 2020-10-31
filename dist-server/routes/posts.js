@@ -23,7 +23,7 @@ var router = _express["default"].Router();
 /* GET lastest-post */
 
 
-router.get("/api/lastest-posts", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.get("/api/lastest-posts", /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
     var data;
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -115,7 +115,7 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
 }());
 /* UPDATE post */
 
-router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.put("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
     var data;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -123,7 +123,7 @@ router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function 
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return (0, _databaseConnection["default"])("UPDATE Posts SET column1 = value1, column2 = value2, ... WHERE condition");
+            return (0, _databaseConnection["default"])("UPDATE Posts SET values()");
 
           case 2:
             data = _context4.sent;
@@ -145,7 +145,7 @@ router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function 
 }());
 /* DELETE post*/
 
-router.post("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router["delete"]("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res, next) {
     var id, data;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {

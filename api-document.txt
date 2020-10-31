@@ -1,0 +1,19 @@
+localhost:3000
+/auth
+-POST /api/login
+-POST /api/logout
+-POST /token
+/users
+-GET /api 
+-GET /api/:id 
+-POST /api
+-PUT /api/:id
+-DELETE /api/:id
+
+*posts
+-GET /api/lastest-posts (public api)
+-GET /api/:id (public api)
+-POST /api
+-PUT /api/:id
+-DELETE /api/:id
+

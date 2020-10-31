@@ -122,7 +122,7 @@ router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
           case 0:
             postData = req.body;
             _context4.next = 3;
-            return runQuery("UPDATE Users SET column1 = value1, column2 = value2, ... WHERE condition");
+            return runQuery("UPDATE Users SET values()");
 
           case 3:
             data = _context4.sent;

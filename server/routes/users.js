@@ -26,7 +26,7 @@ router.post('/api',authenticateJWT,async function(req, res, next) {
 /* UPDATE user. */
 router.put('/api',authenticateJWT,async function(req, res, next) {
   const postData = req.body;
-  const data = await runQuery(`UPDATE Users SET column1 = value1, column2 = value2, ... WHERE condition`);
+  const data = await runQuery(`UPDATE Users SET values()`);
   res.send({ data: data });
 });
 
