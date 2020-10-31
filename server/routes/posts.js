@@ -20,14 +20,28 @@ router.get("/api/:id", async function (req, res, next) {
 
 /* CREATE post */
 router.post("/api/",authenticateJWT, async function (req, res, next) {
-  const postData = req.body;
-  const data = await runQuery(`insert into Posts values()`);
-  res.send({ data: data });
+  const {userId,title,tags,isAudioQuestion,content} = req.body;
+  const CreationDate = new Date();
+  try {
+    const data = await runQuery(`insert into Posts 
+    (PostTypeId, ParentId, CreationDate, 
+    Score, ViewCount, OwnerUserId, 
+    LastEditorUserId, LastEditorDisplayName, 
+    LastActivityDate, Title, Tags, AnswerCount, 
+    CommentCount, FavouriteCount, ClosedDate, 
+    CommunityOwnedDate, isAudioQuestion, Content) 
+    values(null,null,${CreationDate},${userId},${userId},null,${title},${tags},0,0,0,null,0,${isAudioQuestion},${content})`);
+    res.send({ data: data });
+  } catch (error) {
+    res.status(500);
+  }
+  
 });
 
 /* UPDATE post */
 router.put("/api/:id",authenticateJWT, async function (req, res, next) {
-  const data = await runQuery(`UPDATE Posts SET values()`);
+  const {userId,title,tags,isAudioQuestion,content} = req.body;
+  const data = await runQuery(`UPDATE Posts SET values(null,null,${CreationDate},${userId},${userId},null,${title},${tags},0,0,0,null,0,${isAudioQuestion},${content})`);
   res.send({ data: data });
 });
 

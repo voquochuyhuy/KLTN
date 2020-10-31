@@ -86,27 +86,37 @@ router.get("/api/:id", /*#__PURE__*/function () {
 
 router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
-    var postData, data;
+    var _req$body, userId, title, tags, isAudioQuestion, content, CreationDate, data;
+
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            postData = req.body;
-            _context3.next = 3;
-            return (0, _databaseConnection["default"])("insert into Posts values()");
+            _req$body = req.body, userId = _req$body.userId, title = _req$body.title, tags = _req$body.tags, isAudioQuestion = _req$body.isAudioQuestion, content = _req$body.content;
+            CreationDate = new Date();
+            _context3.prev = 2;
+            _context3.next = 5;
+            return (0, _databaseConnection["default"])("insert into Posts \n    (PostTypeId, ParentId, CreationDate, \n    Score, ViewCount, OwnerUserId, \n    LastEditorUserId, LastEditorDisplayName, \n    LastActivityDate, Title, Tags, AnswerCount, \n    CommentCount, FavouriteCount, ClosedDate, \n    CommunityOwnedDate, isAudioQuestion, Content) \n    values(null,null,".concat(CreationDate, ",").concat(userId, ",").concat(userId, ",null,").concat(title, ",").concat(tags, ",0,0,0,null,0,").concat(isAudioQuestion, ",").concat(content, ")"));
 
-          case 3:
+          case 5:
             data = _context3.sent;
             res.send({
               data: data
             });
+            _context3.next = 12;
+            break;
 
-          case 5:
+          case 9:
+            _context3.prev = 9;
+            _context3.t0 = _context3["catch"](2);
+            res.status(500);
+
+          case 12:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[2, 9]]);
   }));
 
   return function (_x7, _x8, _x9) {
@@ -117,21 +127,23 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
 
 router.put("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var data;
+    var _req$body2, userId, title, tags, isAudioQuestion, content, data;
+
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 2;
-            return (0, _databaseConnection["default"])("UPDATE Posts SET values()");
+            _req$body2 = req.body, userId = _req$body2.userId, title = _req$body2.title, tags = _req$body2.tags, isAudioQuestion = _req$body2.isAudioQuestion, content = _req$body2.content;
+            _context4.next = 3;
+            return (0, _databaseConnection["default"])("UPDATE Posts SET values(null,null,".concat(CreationDate, ",").concat(userId, ",").concat(userId, ",null,").concat(title, ",").concat(tags, ",0,0,0,null,0,").concat(isAudioQuestion, ",").concat(content, ")"));
 
-          case 2:
+          case 3:
             data = _context4.sent;
             res.send({
               data: data
             });
 
-          case 4:
+          case 5:
           case "end":
             return _context4.stop();
         }

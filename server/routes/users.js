@@ -1,6 +1,7 @@
 import express from 'express';
 import { async } from 'regenerator-runtime';
 import { authenticateJWT } from '../middleware/authencationJWT';
+import bcrypt from 'bcrypt'
 var router = express.Router();
 
 /* GET users listing. */
@@ -18,15 +19,28 @@ router.get('/api/:id',authenticateJWT,async function(req, res, next) {
 
 /* CREATE user . */
 router.post('/api',authenticateJWT,async function(req, res, next) {
-  const postData = req.body;
-  const data = await runQuery(`insert into Users values()`);
-  res.send({ data: data });
+  const {displayName,websiteUrl,region,aboutMe,profileImageUrl,email,age,account,passwordHash} = req.body;
+  const saltRounds = 10;
+  const creationDate,lastAccessDate = new Date();
+  bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(passwordHash, salt, function(err, hash) {
+      const data = await runQuery(`insert into Users 
+      (CreationDate, DisplayName, LastAccessDate, 
+      WebsiteUrl, Region, AboutMe, 
+      UpVotes, DownVotes, ProfileImageUrl, 
+      Email, Age, Account, PasswordHash) 
+      values(${creationDate},${displayName},${lastAccessDate},${websiteUrl},${region},${aboutMe},0,0,${profileImageUrl},${email},${age},${account},${hash}
+      )`);
+      res.send({ data: data });
+    });
+  });
+  
 });
 
 /* UPDATE user. */
 router.put('/api',authenticateJWT,async function(req, res, next) {
-  const postData = req.body;
-  const data = await runQuery(`UPDATE Users SET values()`);
+  const {displayName,websiteUrl,region,aboutMe,profileImageUrl,email,age,account,passwordHash} = req.body;
+  const data = await runQuery(`UPDATE Users SET values(${creationDate},${displayName},${lastAccessDate},${websiteUrl},${region},${aboutMe},0,0,${profileImageUrl},${email},${age},${account},${hash})`);
   res.send({ data: data });
 });
 

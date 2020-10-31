@@ -91,7 +91,7 @@ router.post('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
           case 0:
             postData = req.body;
             _context3.next = 3;
-            return runQuery("insert into Users values()");
+            return runQuery("insert into Users \n  ([CreationDate], [DisplayName], [LastAccessDate], \n  [WebsiteUrl], [Region], [AboutMe], \n  [UpVotes], [DownVotes], [ProfileImageUrl], \n  [Email], [Age], [Account], [PasswordHash]) values()");
 
           case 3:
             data = _context3.sent;
