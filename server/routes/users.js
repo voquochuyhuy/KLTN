@@ -21,9 +21,10 @@ router.get('/api/:id',authenticateJWT,async function(req, res, next) {
 router.post('/api',authenticateJWT,async function(req, res, next) {
   const {displayName,websiteUrl,region,aboutMe,profileImageUrl,email,age,account,passwordHash} = req.body;
   const saltRounds = 10;
-  const creationDate,lastAccessDate = new Date();
+  const creationDate= new Date();
+  const lastAccessDate = new Date();
   bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(passwordHash, salt, function(err, hash) {
+    bcrypt.hash(passwordHash, salt, async function(err, hash) {
       const data = await runQuery(`insert into Users 
       (CreationDate, DisplayName, LastAccessDate, 
       WebsiteUrl, Region, AboutMe, 

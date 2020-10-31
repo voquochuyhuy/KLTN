@@ -11,6 +11,8 @@ var _regeneratorRuntime = require("regenerator-runtime");
 
 var _authencationJWT = require("../middleware/authencationJWT");
 
+var _bcrypt = _interopRequireDefault(require("bcrypt"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -83,51 +85,47 @@ router.get('/api/:id', _authencationJWT.authenticateJWT, /*#__PURE__*/function (
 /* CREATE user . */
 
 router.post('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
-    var postData, data;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            postData = req.body;
-            _context3.next = 3;
-            return runQuery("insert into Users \n  ([CreationDate], [DisplayName], [LastAccessDate], \n  [WebsiteUrl], [Region], [AboutMe], \n  [UpVotes], [DownVotes], [ProfileImageUrl], \n  [Email], [Age], [Account], [PasswordHash]) values()");
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
+    var _req$body, displayName, websiteUrl, region, aboutMe, profileImageUrl, email, age, account, passwordHash, saltRounds, creationDate, lastAccessDate;
 
-          case 3:
-            data = _context3.sent;
-            res.send({
-              data: data
-            });
-
-          case 5:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  }));
-
-  return function (_x7, _x8, _x9) {
-    return _ref3.apply(this, arguments);
-  };
-}());
-/* UPDATE user. */
-
-router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var postData, data;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            postData = req.body;
-            _context4.next = 3;
-            return runQuery("UPDATE Users SET values()");
+            _req$body = req.body, displayName = _req$body.displayName, websiteUrl = _req$body.websiteUrl, region = _req$body.region, aboutMe = _req$body.aboutMe, profileImageUrl = _req$body.profileImageUrl, email = _req$body.email, age = _req$body.age, account = _req$body.account, passwordHash = _req$body.passwordHash;
+            saltRounds = 10;
+            creationDate = new Date();
+            lastAccessDate = new Date();
 
-          case 3:
-            data = _context4.sent;
-            res.send({
-              data: data
+            _bcrypt["default"].genSalt(saltRounds, function (err, salt) {
+              _bcrypt["default"].hash(passwordHash, salt, /*#__PURE__*/function () {
+                var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(err, hash) {
+                  var data;
+                  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return runQuery("insert into Users \n      (CreationDate, DisplayName, LastAccessDate, \n      WebsiteUrl, Region, AboutMe, \n      UpVotes, DownVotes, ProfileImageUrl, \n      Email, Age, Account, PasswordHash) \n      values(".concat(creationDate, ",").concat(displayName, ",").concat(lastAccessDate, ",").concat(websiteUrl, ",").concat(region, ",").concat(aboutMe, ",0,0,").concat(profileImageUrl, ",").concat(email, ",").concat(age, ",").concat(account, ",").concat(hash, "\n      )"));
+
+                        case 2:
+                          data = _context3.sent;
+                          res.send({
+                            data: data
+                          });
+
+                        case 4:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                }));
+
+                return function (_x10, _x11) {
+                  return _ref4.apply(this, arguments);
+                };
+              }());
             });
 
           case 5:
@@ -138,22 +136,23 @@ router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
     }, _callee4);
   }));
 
-  return function (_x10, _x11, _x12) {
-    return _ref4.apply(this, arguments);
+  return function (_x7, _x8, _x9) {
+    return _ref3.apply(this, arguments);
   };
 }());
-/* Delete user . */
+/* UPDATE user. */
 
-router["delete"]('/api/:id', /*#__PURE__*/function () {
+router.put('/api', _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res, next) {
-    var id, data;
+    var _req$body2, displayName, websiteUrl, region, aboutMe, profileImageUrl, email, age, account, passwordHash, data;
+
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            id = req.params.id;
+            _req$body2 = req.body, displayName = _req$body2.displayName, websiteUrl = _req$body2.websiteUrl, region = _req$body2.region, aboutMe = _req$body2.aboutMe, profileImageUrl = _req$body2.profileImageUrl, email = _req$body2.email, age = _req$body2.age, account = _req$body2.account, passwordHash = _req$body2.passwordHash;
             _context5.next = 3;
-            return runQuery("DELETE FROM Users WHERE id=".concat(id));
+            return runQuery("UPDATE Users SET values(".concat(creationDate, ",").concat(displayName, ",").concat(lastAccessDate, ",").concat(websiteUrl, ",").concat(region, ",").concat(aboutMe, ",0,0,").concat(profileImageUrl, ",").concat(email, ",").concat(age, ",").concat(account, ",").concat(hash, ")"));
 
           case 3:
             data = _context5.sent;
@@ -169,8 +168,39 @@ router["delete"]('/api/:id', /*#__PURE__*/function () {
     }, _callee5);
   }));
 
-  return function (_x13, _x14, _x15) {
+  return function (_x12, _x13, _x14) {
     return _ref5.apply(this, arguments);
+  };
+}());
+/* Delete user . */
+
+router["delete"]('/api/:id', /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res, next) {
+    var id, data;
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            id = req.params.id;
+            _context6.next = 3;
+            return runQuery("DELETE FROM Users WHERE id=".concat(id));
+
+          case 3:
+            data = _context6.sent;
+            res.send({
+              data: data
+            });
+
+          case 5:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
+  }));
+
+  return function (_x15, _x16, _x17) {
+    return _ref6.apply(this, arguments);
   };
 }());
 var _default = router;
