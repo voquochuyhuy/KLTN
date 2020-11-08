@@ -41,7 +41,22 @@ router.post("/api/",authenticateJWT, async function (req, res, next) {
 /* UPDATE post */
 router.put("/api/:id",authenticateJWT, async function (req, res, next) {
   const {userId,title,tags,isAudioQuestion,content} = req.body;
-  const data = await runQuery(`UPDATE Posts SET values(null,null,${CreationDate},${userId},${userId},null,${title},${tags},0,0,0,null,0,${isAudioQuestion},${content})`);
+  let queryString = `UPDATE Posts SET `;
+  if (title) {
+    queryString.concat(`Title = '${title}', `);
+  }
+  if (tags) {
+    queryString.concat(`Tags = '${tags}', `);
+  }
+  if (isAudioQuestion) {
+    queryString.concat(`isAudioQuestion = ${isAudioQuestion}, `);
+  }
+  if (content) {
+    queryString.concat(`Content = '${content}', `);
+  }
+  const lastActivityDate = new Date();
+  queryString.concat(`LastActivityDate = '${lastActivityDate} WHERE Id = ${userId}`);
+  const data = await runQuery(queryString);
   res.send({ data: data });
 });
 

@@ -127,23 +127,43 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
 
 router.put("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var _req$body2, userId, title, tags, isAudioQuestion, content, data;
+    var _req$body2, userId, title, tags, isAudioQuestion, content, queryString, lastActivityDate, data;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _req$body2 = req.body, userId = _req$body2.userId, title = _req$body2.title, tags = _req$body2.tags, isAudioQuestion = _req$body2.isAudioQuestion, content = _req$body2.content;
-            _context4.next = 3;
-            return (0, _databaseConnection["default"])("UPDATE Posts SET values(null,null,".concat(CreationDate, ",").concat(userId, ",").concat(userId, ",null,").concat(title, ",").concat(tags, ",0,0,0,null,0,").concat(isAudioQuestion, ",").concat(content, ")"));
+            queryString = "UPDATE Posts SET ";
 
-          case 3:
+            if (title) {
+              queryString.concat("Title = '".concat(title, "', "));
+            }
+
+            if (tags) {
+              queryString.concat("Tags = '".concat(tags, "', "));
+            }
+
+            if (isAudioQuestion) {
+              queryString.concat("isAudioQuestion = ".concat(isAudioQuestion, ", "));
+            }
+
+            if (content) {
+              queryString.concat("Content = '".concat(content, "', "));
+            }
+
+            lastActivityDate = new Date();
+            queryString.concat("LastActivityDate = '".concat(lastActivityDate, " WHERE Id = ").concat(userId));
+            _context4.next = 10;
+            return (0, _databaseConnection["default"])(queryString);
+
+          case 10:
             data = _context4.sent;
             res.send({
               data: data
             });
 
-          case 5:
+          case 12:
           case "end":
             return _context4.stop();
         }
