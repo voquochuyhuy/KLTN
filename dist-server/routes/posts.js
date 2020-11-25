@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
+var _moment = _interopRequireDefault(require("moment"));
+
 var _regeneratorRuntime = require("regenerator-runtime");
 
 var _databaseConnection = _interopRequireDefault(require("../databaseConnection"));
@@ -86,37 +88,34 @@ router.get("/api/:id", /*#__PURE__*/function () {
 
 router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res, next) {
-    var _req$body, userId, title, tags, isAudioQuestion, content, CreationDate, data;
+    var _req$body, userId, title, tags, isAudioQuestion, content, CreationDate, queryString, data;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _req$body = req.body, userId = _req$body.userId, title = _req$body.title, tags = _req$body.tags, isAudioQuestion = _req$body.isAudioQuestion, content = _req$body.content;
-            CreationDate = new Date();
-            _context3.prev = 2;
-            _context3.next = 5;
-            return (0, _databaseConnection["default"])("insert into Posts \n    (PostTypeId, ParentId, CreationDate, \n    Score, ViewCount, OwnerUserId, \n    LastEditorUserId, LastEditorDisplayName, \n    LastActivityDate, Title, Tags, AnswerCount, \n    CommentCount, FavouriteCount, ClosedDate, \n    CommunityOwnedDate, isAudioQuestion, Content) \n    values(null,null,".concat(CreationDate, ",").concat(userId, ",").concat(userId, ",null,").concat(title, ",").concat(tags, ",0,0,0,null,0,").concat(isAudioQuestion, ",").concat(content, ")"));
+            console.log(req.user);
+            CreationDate = (0, _moment["default"])(new Date()).format('YYYY-MM-DD');
+            queryString = "insert into Posts \n  (PostTypeId, ParentId, CreationDate, \n  Score, ViewCount, OwnerUserId, \n  LastEditorUserId, LastEditorDisplayName, \n  LastActivityDate, Title, Tags, AnswerCount, \n  CommentCount, FavouriteCount, ClosedDate, \n  CommunityOwnedDate, isAudioQuestion, Content) \n  values(null,null,'".concat(CreationDate, "',0,0,'").concat(userId, "','").concat(userId, "',null,'").concat(CreationDate, "','").concat(title, "','").concat(tags, "',0,0,0,null,null,'").concat(isAudioQuestion, "','").concat(content, "')");
+            console.log(queryString);
+            _context3.next = 7;
+            return (0, _databaseConnection["default"])(queryString);
 
-          case 5:
+          case 7:
             data = _context3.sent;
-            res.send({
+            if (data) res.send({
               data: data
-            });
-            _context3.next = 12;
-            break;
+            });else {
+              res.status(500);
+            }
 
           case 9:
-            _context3.prev = 9;
-            _context3.t0 = _context3["catch"](2);
-            res.status(500);
-
-          case 12:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[2, 9]]);
+    }, _callee3);
   }));
 
   return function (_x7, _x8, _x9) {

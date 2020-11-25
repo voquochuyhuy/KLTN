@@ -35,10 +35,11 @@ router.post('/api/login', /*#__PURE__*/function () {
           case 0:
             _req$body = req.body, username = _req$body.username, password = _req$body.password;
             _context.next = 3;
-            return (0, _databaseConnection["default"])("SELECT * FROM Users WHERE Email = '".concat(username, "' AND CONVERT(VARCHAR, PasswordHash) = '").concat(password, "'"));
+            return (0, _databaseConnection["default"])("SELECT * FROM Users WHERE CONVERT(VARCHAR, Email) = '".concat(username, "' AND CONVERT(VARCHAR, PasswordHash) = '").concat(password, "'"));
 
           case 3:
             data = _context.sent;
+            console.log(req.body, data);
 
             if (data) {
               accessToken = _jsonwebtoken["default"].sign({
@@ -63,10 +64,10 @@ router.post('/api/login', /*#__PURE__*/function () {
                 userData: userData
               });
             } else {
-              res.send('Username or password incorrect');
+              res.status(500);
             }
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }

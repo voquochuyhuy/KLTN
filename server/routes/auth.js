@@ -9,7 +9,8 @@ var router = express.Router();
 /* LOGIN */
 router.post('/api/login', async function(req, res, next) {
     const { username, password } = req.body;
-    const data = await runQuery(`SELECT * FROM Users WHERE Email = '${username}' AND CONVERT(VARCHAR, PasswordHash) = '${password}'`);
+    const data = await runQuery(`SELECT * FROM Users WHERE CONVERT(VARCHAR, Email) = '${username}' AND CONVERT(VARCHAR, PasswordHash) = '${password}'`);
+    console.log(req.body,data);
     if (data) {
         const accessToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, accessTokenSecret, { expiresIn: '20m' });
         const refreshToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, refreshTokenSecret);
@@ -23,7 +24,7 @@ router.post('/api/login', async function(req, res, next) {
             userData
         });
     } else {
-        res.send('Username or password incorrect');
+        res.status(500);
     }
 });
 

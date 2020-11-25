@@ -1,6 +1,7 @@
 import express from "express";
 import { async } from "regenerator-runtime";
 import { authenticateJWT } from "../middleware/authencationJWT";
+import aesjs from 'aes-js';
 import bcrypt from "bcrypt";
 var router = express.Router();
 
