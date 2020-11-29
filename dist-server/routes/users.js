@@ -156,38 +156,38 @@ router.put("/api", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
             queryString = "UPDATE Users SET ";
 
             if (displayName) {
-              queryString.concat("DisplayName = '".concat(displayName, "', "));
+              queryString = queryString.concat("DisplayName = '".concat(displayName, "', "));
             }
 
             if (websiteUrl) {
-              queryString.concat("WebsiteUrl = '".concat(websiteUrl, "', "));
+              queryString = queryString.concat("WebsiteUrl = '".concat(websiteUrl, "', "));
             }
 
             if (region) {
-              queryString.concat("Region = '".concat(region, "', "));
+              queryString = queryString.concat("Region = '".concat(region, "', "));
             }
 
             if (aboutMe) {
-              queryString.concat("AboutMe = '".concat(aboutMe, "', "));
+              queryString = queryString.concat("AboutMe = '".concat(aboutMe, "', "));
             }
 
             if (profileImageUrl) {
-              queryString.concat("ProfileImageUrl = '".concat(profileImageUrl, "', "));
+              queryString = queryString.concat("ProfileImageUrl = '".concat(profileImageUrl, "', "));
             }
 
             if (email) {
-              queryString.concat("Email = '".concat(email, "', "));
+              queryString = queryString.concat("Email = '".concat(email, "', "));
             }
 
             if (age) {
-              queryString.concat("Age = '".concat(age, "', "));
+              queryString = queryString.concat("Age = '".concat(age, "', "));
             }
 
             if (account) {
-              queryString.concat("Account = '".concat(account, "', "));
+              queryString = queryString.concat("Account = '".concat(account, "', "));
             }
 
-            queryString.concat("WHERE Id = ".concat(id));
+            queryString = queryString.concat("WHERE Id = ".concat(id));
             _context5.prev = 11;
             _context5.next = 14;
             return runQuery(queryString);

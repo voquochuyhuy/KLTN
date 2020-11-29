@@ -15,14 +15,19 @@ router.get("/api/lastest-posts", async function (req, res, next) {
 /*GET post detail*/
 router.get("/api/:id", async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`select from Posts where id ='${id}'`);
-  res.send({ data: data });
+  const data = await runQuery(`select * from Posts where id =${id}`);
+  if(data){
+    res.send({ data: data.recordset[0] });
+  }
+  else {
+    res.status(500);
+  }
+
 });
 
 /* CREATE post */
 router.post("/api/", authenticateJWT, async function (req, res, next) {
   const { userId, title, tags, isAudioQuestion, content } = req.body;
-  console.log(req.user)
   const CreationDate = moment(new Date()).format('YYYY-MM-DD');
   const queryString = `insert into Posts 
   (PostTypeId, ParentId, CreationDate, 
@@ -32,7 +37,6 @@ router.post("/api/", authenticateJWT, async function (req, res, next) {
   CommentCount, FavouriteCount, ClosedDate, 
   CommunityOwnedDate, isAudioQuestion, Content) 
   values(null,null,'${CreationDate}',0,0,'${userId}','${userId}',null,'${CreationDate}','${title}','${tags}',0,0,0,null,null,'${isAudioQuestion}','${content}')`;
-  console.log(queryString);
   const data = await runQuery(queryString);
   if (data) res.send({ data: data });
   else {
@@ -41,24 +45,25 @@ router.post("/api/", authenticateJWT, async function (req, res, next) {
 });
 
 /* UPDATE post */
-router.put("/api/:id", authenticateJWT, async function (req, res, next) {
-  const { userId, title, tags, isAudioQuestion, content } = req.body;
+router.put("/api/", authenticateJWT, async function (req, res, next) {
+  const { id, title, tags, isAudioQuestion, content } = req.body;
+  console.log(id, title, tags, isAudioQuestion, content)
   let queryString = `UPDATE Posts SET `;
   if (title) {
-    queryString.concat(`Title = '${title}', `);
+    queryString = queryString.concat(`Title = '${title}', `);
   }
-  if (tags) {
-    queryString.concat(`Tags = '${tags}', `);
+  if (tags !== undefined) {
+    queryString = queryString.concat(`Tags = '${tags}', `);
   }
-  if (isAudioQuestion) {
-    queryString.concat(`isAudioQuestion = ${isAudioQuestion}, `);
+  if (isAudioQuestion !== undefined) {
+    queryString = queryString.concat(`isAudioQuestion = ${isAudioQuestion}, `);
   }
-  if (content) {
-    queryString.concat(`Content = '${content}', `);
+  if (content !== undefined) {
+    queryString = queryString.concat(`Content = '${content}', `);
   }
-  const lastActivityDate = new Date();
-  queryString.concat(
-    `LastActivityDate = '${lastActivityDate} WHERE Id = ${userId}`
+  const lastActivityDate = moment(new Date()).format('YYYY-MM-DD');
+  queryString = queryString.concat(
+    `LastActivityDate = '${lastActivityDate}' WHERE id = ${id}`
   );
   const data = await runQuery(queryString);
   res.send({ data: data });

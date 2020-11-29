@@ -63,30 +63,30 @@ router.put("/api", authenticateJWT, async function (req, res, next) {
   } = req.body;
   let queryString = `UPDATE Users SET `;
   if (displayName) {
-    queryString.concat(`DisplayName = '${displayName}', `);
+    queryString = queryString.concat(`DisplayName = '${displayName}', `);
   }
   if (websiteUrl) {
-    queryString.concat(`WebsiteUrl = '${websiteUrl}', `);
+    queryString = queryString.concat(`WebsiteUrl = '${websiteUrl}', `);
   }
   if (region) {
-    queryString.concat(`Region = '${region}', `);
+    queryString = queryString.concat(`Region = '${region}', `);
   }
   if (aboutMe) {
-    queryString.concat(`AboutMe = '${aboutMe}', `);
+    queryString =  queryString.concat(`AboutMe = '${aboutMe}', `);
   }
   if (profileImageUrl) {
-    queryString.concat(`ProfileImageUrl = '${profileImageUrl}', `);
+    queryString = queryString.concat(`ProfileImageUrl = '${profileImageUrl}', `);
   }
   if (email) {
-    queryString.concat(`Email = '${email}', `);
+    queryString = queryString.concat(`Email = '${email}', `);
   }
   if (age) {
-    queryString.concat(`Age = '${age}', `);
+    queryString = queryString.concat(`Age = '${age}', `);
   }
   if (account) {
-    queryString.concat(`Account = '${account}', `);
+    queryString = queryString.concat(`Account = '${account}', `);
   }
-  queryString.concat(`WHERE Id = ${id}`);
+  queryString = queryString.concat(`WHERE Id = ${id}`);
   try {
     const data = await runQuery(queryString);
     res.send({ data: data });

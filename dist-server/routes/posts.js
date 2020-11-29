@@ -64,13 +64,18 @@ router.get("/api/:id", /*#__PURE__*/function () {
           case 0:
             id = req.params.id;
             _context2.next = 3;
-            return (0, _databaseConnection["default"])("select from Posts where id ='".concat(id, "'"));
+            return (0, _databaseConnection["default"])("select * from Posts where id =".concat(id));
 
           case 3:
             data = _context2.sent;
-            res.send({
-              data: data
-            });
+
+            if (data) {
+              res.send({
+                data: data.recordset[0]
+              });
+            } else {
+              res.status(500);
+            }
 
           case 5:
           case "end":
@@ -95,14 +100,12 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
         switch (_context3.prev = _context3.next) {
           case 0:
             _req$body = req.body, userId = _req$body.userId, title = _req$body.title, tags = _req$body.tags, isAudioQuestion = _req$body.isAudioQuestion, content = _req$body.content;
-            console.log(req.user);
             CreationDate = (0, _moment["default"])(new Date()).format('YYYY-MM-DD');
             queryString = "insert into Posts \n  (PostTypeId, ParentId, CreationDate, \n  Score, ViewCount, OwnerUserId, \n  LastEditorUserId, LastEditorDisplayName, \n  LastActivityDate, Title, Tags, AnswerCount, \n  CommentCount, FavouriteCount, ClosedDate, \n  CommunityOwnedDate, isAudioQuestion, Content) \n  values(null,null,'".concat(CreationDate, "',0,0,'").concat(userId, "','").concat(userId, "',null,'").concat(CreationDate, "','").concat(title, "','").concat(tags, "',0,0,0,null,null,'").concat(isAudioQuestion, "','").concat(content, "')");
-            console.log(queryString);
-            _context3.next = 7;
+            _context3.next = 5;
             return (0, _databaseConnection["default"])(queryString);
 
-          case 7:
+          case 5:
             data = _context3.sent;
             if (data) res.send({
               data: data
@@ -110,7 +113,7 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
               res.status(500);
             }
 
-          case 9:
+          case 7:
           case "end":
             return _context3.stop();
         }
@@ -124,45 +127,46 @@ router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () 
 }());
 /* UPDATE post */
 
-router.put("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.put("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res, next) {
-    var _req$body2, userId, title, tags, isAudioQuestion, content, queryString, lastActivityDate, data;
+    var _req$body2, id, title, tags, isAudioQuestion, content, queryString, lastActivityDate, data;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _req$body2 = req.body, userId = _req$body2.userId, title = _req$body2.title, tags = _req$body2.tags, isAudioQuestion = _req$body2.isAudioQuestion, content = _req$body2.content;
+            _req$body2 = req.body, id = _req$body2.id, title = _req$body2.title, tags = _req$body2.tags, isAudioQuestion = _req$body2.isAudioQuestion, content = _req$body2.content;
+            console.log(id, title, tags, isAudioQuestion, content);
             queryString = "UPDATE Posts SET ";
 
             if (title) {
-              queryString.concat("Title = '".concat(title, "', "));
+              queryString = queryString.concat("Title = '".concat(title, "', "));
             }
 
-            if (tags) {
-              queryString.concat("Tags = '".concat(tags, "', "));
+            if (tags !== undefined) {
+              queryString = queryString.concat("Tags = '".concat(tags, "', "));
             }
 
-            if (isAudioQuestion) {
-              queryString.concat("isAudioQuestion = ".concat(isAudioQuestion, ", "));
+            if (isAudioQuestion !== undefined) {
+              queryString = queryString.concat("isAudioQuestion = ".concat(isAudioQuestion, ", "));
             }
 
-            if (content) {
-              queryString.concat("Content = '".concat(content, "', "));
+            if (content !== undefined) {
+              queryString = queryString.concat("Content = '".concat(content, "', "));
             }
 
-            lastActivityDate = new Date();
-            queryString.concat("LastActivityDate = '".concat(lastActivityDate, " WHERE Id = ").concat(userId));
-            _context4.next = 10;
+            lastActivityDate = (0, _moment["default"])(new Date()).format('YYYY-MM-DD');
+            queryString = queryString.concat("LastActivityDate = '".concat(lastActivityDate, "' WHERE id = ").concat(id));
+            _context4.next = 11;
             return (0, _databaseConnection["default"])(queryString);
 
-          case 10:
+          case 11:
             data = _context4.sent;
             res.send({
               data: data
             });
 
-          case 12:
+          case 13:
           case "end":
             return _context4.stop();
         }
