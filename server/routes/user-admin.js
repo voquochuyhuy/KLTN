@@ -7,26 +7,26 @@ import { authenticateJWT } from "../middleware/authencationJWT";
 var router = express.Router();
 
 /* GET Bad Post */
-router.post("/api/user-list", async function (req, res, next) {
+router.post("/api/bad-posts",authenticateJWT, async function (req, res, next) {
   const {limit,fromRow} = req.body;
   const data = await runQuery(`SELECT TOP ${limit} * FROM Posts where Id > ${fromRow} and `);
   res.send({ data: data });
 });
 
 /* GET User Admin List */
-router.get("/api/admin-list", async function (req, res, next) {
+router.get("/api/admin-list",authenticateJWT, async function (req, res, next) {
   const data = await runQuery(`SELECT * FROM UserAdmin `);
   res.send({ data: data });
 });
 
 /* GET User List */
-router.get("/api/user-list", async function (req, res, next) {
+router.get("/api/user-list",authenticateJWT, async function (req, res, next) {
   const data = await runQuery(`SELECT * FROM Users`);
   res.send({ data: data });
 });
 
 /*GET user admin detail*/
-router.get("/api/:id", async function (req, res, next) {
+router.get("/api/:id",authenticateJWT, async function (req, res, next) {
   const id = req.params.id;
   const data = await runQuery(`select * from UserAdmin where id =${id}`);
   if(data){

@@ -15,7 +15,7 @@ router.get("/api/lastest-posts", async function (req, res, next) {
 /*GET post detail*/
 router.get("/api/:id", async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`select * from Posts where id =${id}`);
+  const data = await runQuery(`select * from Posts JOIN Comments ON Posts.Id = Comments.PostId WHERE Users.Id = '${id}'`);
   if(data){
     res.send({ data: data.recordset[0] });
   }

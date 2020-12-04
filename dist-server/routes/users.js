@@ -95,6 +95,7 @@ router.post("/api", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _req$body = req.body, displayName = _req$body.displayName, websiteUrl = _req$body.websiteUrl, region = _req$body.region, aboutMe = _req$body.aboutMe, profileImageUrl = _req$body.profileImageUrl, email = _req$body.email, age = _req$body.age, account = _req$body.account, passwordHash = _req$body.passwordHash;
+            if (!email || !passwordHash || !displayName) res.status(400);
             saltRounds = 10;
             creationDate = new Date();
             lastAccessDate = new Date();
@@ -130,7 +131,7 @@ router.post("/api", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
               }());
             });
 
-          case 5:
+          case 6:
           case "end":
             return _context4.stop();
         }

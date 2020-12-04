@@ -21,6 +21,10 @@ var _posts = _interopRequireDefault(require("./routes/posts"));
 
 var _auth = _interopRequireDefault(require("./routes/auth"));
 
+var _log = _interopRequireDefault(require("./routes/log"));
+
+var _userAdmin = _interopRequireDefault(require("./routes/user-admin"));
+
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -38,5 +42,7 @@ app.use('/', _index["default"]);
 app.use('/users', _users["default"]);
 app.use('/posts', _posts["default"]);
 app.use('/auth', _auth["default"]);
+app.use('/log', _log["default"]);
+app.use('/user-admin', _userAdmin["default"]);
 var _default = app;
 exports["default"] = _default;

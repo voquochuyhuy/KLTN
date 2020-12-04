@@ -17,3 +17,14 @@ localhost:3000
 -PUT /api/:id
 -DELETE /api/:id
 
+*logs
+-POST /api/ (public api)
+-POST /api
+
+*user-admin
+-POST /api/bad-posts 
+-GET /api/admin-list 
+-GET/api/user-list
+-GET/api/:id
+-DELETE /api/:id
+

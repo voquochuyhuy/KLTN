@@ -64,7 +64,7 @@ router.get("/api/:id", /*#__PURE__*/function () {
           case 0:
             id = req.params.id;
             _context2.next = 3;
-            return (0, _databaseConnection["default"])("select * from Posts where id =".concat(id));
+            return (0, _databaseConnection["default"])("select * from Posts JOIN Comments ON Posts.Id = Comments.PostId WHERE Users.Id = '".concat(id, "'"));
 
           case 3:
             data = _context2.sent;
