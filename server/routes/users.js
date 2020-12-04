@@ -31,6 +31,7 @@ router.post("/api", authenticateJWT, async function (req, res, next) {
     account,
     passwordHash,
   } = req.body;
+  if(!email || !passwordHash || !displayName) res.status(400);
   const saltRounds = 10;
   const creationDate = new Date();
   const lastAccessDate = new Date();

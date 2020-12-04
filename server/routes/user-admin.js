@@ -6,22 +6,29 @@ import { authenticateJWT } from "../middleware/authencationJWT";
 
 var router = express.Router();
 
+/* GET Bad Post */
+router.post("/api/user-list", async function (req, res, next) {
+  const {limit,fromRow} = req.body;
+  const data = await runQuery(`SELECT TOP ${limit} * FROM Posts where Id > ${fromRow} and `);
+  res.send({ data: data });
+});
+
 /* GET User Admin List */
 router.get("/api/admin-list", async function (req, res, next) {
-  const data = await runQuery(`SELECT TOP 10 * FROM Posts ORDER BY Id DESC`);
+  const data = await runQuery(`SELECT * FROM UserAdmin `);
   res.send({ data: data });
 });
 
 /* GET User List */
 router.get("/api/user-list", async function (req, res, next) {
-  const data = await runQuery(`SELECT TOP 10 * FROM Posts ORDER BY Id DESC`);
+  const data = await runQuery(`SELECT * FROM Users`);
   res.send({ data: data });
 });
 
 /*GET user admin detail*/
 router.get("/api/:id", async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`select * from Posts where id =${id}`);
+  const data = await runQuery(`select * from UserAdmin where id =${id}`);
   if(data){
     res.send({ data: data.recordset[0] });
   }
@@ -33,16 +40,9 @@ router.get("/api/:id", async function (req, res, next) {
 
 /* CREATE user admin */
 router.post("/api/", authenticateJWT, async function (req, res, next) {
-  const { userId, title, tags, isAudioQuestion, content } = req.body;
-  const CreationDate = moment(new Date()).format('YYYY-MM-DD');
-  const queryString = `insert into Posts 
-  (PostTypeId, ParentId, CreationDate, 
-  Score, ViewCount, OwnerUserId, 
-  LastEditorUserId, LastEditorDisplayName, 
-  LastActivityDate, Title, Tags, AnswerCount, 
-  CommentCount, FavouriteCount, ClosedDate, 
-  CommunityOwnedDate, isAudioQuestion, Content) 
-  values(null,null,'${CreationDate}',0,0,'${userId}','${userId}',null,'${CreationDate}','${title}','${tags}',0,0,0,null,null,'${isAudioQuestion}','${content}')`;
+  const { Username, Password } = req.body;
+  if(!Username || !Password) res.status(400);
+  const queryString = `insert into UserAdmin values ('${Username}','${Password}')`;
   const data = await runQuery(queryString);
   if (data) res.send({ data: data });
   else {
@@ -53,7 +53,7 @@ router.post("/api/", authenticateJWT, async function (req, res, next) {
 /* DELETE user admin*/
 router.delete("/api/:id", authenticateJWT, async function (req, res, next) {
   const id = req.params.id;
-  const data = await runQuery(`DELETE FROM Posts WHERE id='${id}'`);
+  const data = await runQuery(`DELETE FROM UserAdmin WHERE id='${id}'`);
   res.send({ data: data });
 });
 export default router;
