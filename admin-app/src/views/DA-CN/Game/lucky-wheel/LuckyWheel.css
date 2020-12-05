@@ -1,0 +1,20 @@
+#lucky-wheel {
+	max-width: 1400px;
+	min-width: 1200px;
+	margin: 0 auto;
+	background-image: url('./images/background.jpg');
+	width: 100%;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	padding-bottom: 100px;
+}
+
+/* body {
+	width: 100vw;
+	background: #f84326;
+}
+
+html {
+	outline: none;
+} */

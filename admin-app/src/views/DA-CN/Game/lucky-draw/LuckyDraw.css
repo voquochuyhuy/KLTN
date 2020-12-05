@@ -1,0 +1,143 @@
+.btn-start {
+	padding: 10px 40px;
+	margin-top: 50px;
+	font-weight: bold;
+	font-size: 18px;
+	border: none;
+	border-radius: 6px;
+	transition: all 0.2s;
+	background: #fff;
+	color: #000;
+	outline: none;
+}
+
+.btn-start:hover {
+	background: #7300a8;
+	color: #fff;
+}
+
+#lucky-draw {
+	width: 100%;
+	padding: 120px 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	background-image: url('./images/background.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	overflow: hidden;
+}
+
+.box {
+	margin-top: 100px;
+	width: 800px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.digit {
+	width: 100px;
+	height: 100px;
+	margin-right: 10px;
+	margin-left: 10px;
+	font-size: 52px;
+	color: #fff;
+	background: #7300a8;
+	border: none;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.header img {
+	width: 80%;
+}
+
+.header {
+	margin-top: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.header p {
+	font-size: 20px;
+	color: #f3a953;
+}
+
+.mask {
+	background: rgba(0, 0, 0, 0.8);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.reward {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 700px;
+	height: 400px;
+	margin-top: -200px;
+	margin-left: -350px;
+	z-index: 100;
+	background: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 15px;
+	padding-top: 30px;
+}
+
+.reward p {
+	font-size: 18px;
+}
+
+.reward img {
+	width: 60%;
+	position: absolute;
+	top: -105px;
+	margin-bottom: 30px;
+}
+
+
+.btn-close {
+	margin-top: 30px;
+	font-family: inherit;
+	font-size: 20px;
+	padding: 10px 30px;
+	border: 1px solid black;
+	background: #fff;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 0.2s;
+	transition-timing-function: linear;
+	position: absolute;
+	bottom: 30px;
+}
+
+.btn-close:hover {
+	background: black;
+	color: white;
+}
+
+.info {
+	width: 50%;
+	font-size: 22px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.info div {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
