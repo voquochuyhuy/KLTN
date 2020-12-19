@@ -10,6 +10,7 @@
     "chartist": "0.10.1",
     "clsx": "^1.0.4",
     "eslint-plugin-react-hooks": "^2.2.0",
+    "firebase": "^7.24.0",
     "history": "4.7.2",
     "moment": "2.24.0",
     "node-sass": "4.11.0",
@@ -35,8 +36,8 @@
     "react-use": "^13.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "set PORT=3005 && react-scripts start",
+    "build": "set PORT=3005 && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "npm run build",

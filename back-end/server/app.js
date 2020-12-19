@@ -9,6 +9,7 @@ import authRouter from './routes/auth';
 import logRouter from './routes/log';
 import userAdminRouter from './routes/user-admin';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 var app = express();
 app.use(logger('dev'));
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

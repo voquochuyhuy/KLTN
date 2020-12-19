@@ -6,18 +6,18 @@ import { Switch, Route } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
-import Footer from "components/Footer/Footer.jsx";
+// import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
+// import Footer from "components/Footer/Footer.jsx";
 
 import routes from "./routes_auth.js";
 
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/authStyle.jsx";
 
-import register from "assets/img/register.jpeg";
+// import register from "assets/img/register.jpeg";
 import login from "assets/img/login.jpeg";
-import lock from "assets/img/lock.jpeg";
-import error from "assets/img/clint-mckoy.jpg";
-import pricing from "assets/img/bg-pricing.jpeg";
+// import lock from "assets/img/lock.jpeg";
+// import error from "assets/img/clint-mckoy.jpg";
+// import pricing from "assets/img/bg-pricing.jpeg";
 
 class Pages extends React.Component {
   componentDidMount() {

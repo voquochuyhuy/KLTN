@@ -7,60 +7,69 @@ import EventManagement from "./views/DA-CN/EventManagement/EventManagement";
 import Organization from "./views/DA-CN/Organization/Organization";
 import LuckyDraw from "./views/DA-CN/Game/lucky-draw/LuckyDraw";
 import LuckyWheel from "./views/DA-CN/Game/lucky-wheel/LuckyWheel";
+import Member from "./views/DA-CN/Member/Member";
 
 var dashRoutes = [
   {
-    path: "/event-management",
-    name: "Quản lí sự kiện",
+    path: "/post-management",
+    name: "Quản lí bài viết",
     icon: Event,
     component: EventManagement,
     
     layout: ""
   },
   {
-    path: "/organization",
-    name: "Quản lí tổ chức",
+    path: "/user-management",
+    name: "Quản lí người dùng",
     icon: AccountBalance,
     component: Organization,
    
     layout: ""
   },
   {
-    path: "/statistic",
-    name: "Thống kê số liệu",
+    path: "/member-management",
+    name: "Quản lí thành viên",
+    icon: AccountBalance,
+    component: Member,
+   
+    layout: ""
+  },
+  {
+    path: "/log",
+    name: "Log",
     icon: CalendarToday,
     component: Statistic,
     
     layout: ""
   },
   
-  {
-    collapse: true,
-    name: "Trò chơi",
-    icon: LaptopChromebook,
-    views: [
-      {
-        path: "/intro",
-        name: "Giới thiệu",
-        component: Game,
-        // layout: "/admin"
-        layout: ""
-      },
-      {
-        path: "/lucky-draw",
-        name: "Lucky Draw",
-        component: LuckyDraw,
-        // layout: "/admin"
-        layout: ""
-      },
-      {
-        path: "/lucky-wheel",
-        name: "Lucky Wheel",
-        component: LuckyWheel,
-        // layout: "/admin"
-        layout: ""
-      },
-    ]
-  } 
+  // {
+  //   collapse: true,
+  //   name: "Trò chơi",
+  //   icon: LaptopChromebook,
+  //   views: [
+  //     {
+  //       path: "/intro",
+  //       name: "Giới thiệu",
+  //       component: Game,
+  //       // layout: "/admin"
+  //       layout: ""
+  //     },
+  //     {
+  //       path: "/lucky-draw",
+  //       name: "Lucky Draw",
+  //       component: LuckyDraw,
+  //       // layout: "/admin"
+  //       layout: ""
+  //     },
+  //     {
+  //       path: "/lucky-wheel",
+  //       name: "Lucky Wheel",
+  //       component: LuckyWheel,
+  //       // layout: "/admin"
+  //       layout: ""
+  //     },
+  //   ]
+  // } 
 ];
 export default dashRoutes;

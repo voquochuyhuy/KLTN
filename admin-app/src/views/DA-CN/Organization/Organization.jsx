@@ -58,7 +58,7 @@ class Organization extends Component {
       this.setState({openUpdate : false})
     } 
     onConfirmAdd = (orgaName,address,hotline)=>{
-          axios.post(`http://localhost:3001/graphql`, {
+          axios.post(`http://localhost:3000/graphql`, {
           query: `mutation createOrganizationMutation($organization:CreateOrganizationInput) {
               createOrganization(createOrganizationInput:$organization) { 
                 organizationName
@@ -91,7 +91,7 @@ class Organization extends Component {
         this.setState({open:false});
     } 
     onConfirmDelete = ()=>{
-      axios.post(`http://localhost:3001/graphql`, {
+      axios.post(`http://localhost:3000/graphql`, {
         query: `mutation deleteOrganizationMutation($organization:Int) {
             deleteOrganization(deleteOrganizationInput:$organization) { 
               organizationName
@@ -113,7 +113,7 @@ class Organization extends Component {
       
     }
     onConfirmUpdate = (orgaName,address,hotline)=>{
-      axios.post(`http://localhost:3001/graphql`, {
+      axios.post(`http://localhost:3000/graphql`, {
         query: `mutation updateOrganizationMutation($organization:UpdateOrganizationInput) {
               updateOrganization(updateOrganizationInput:$organization) { 
               organizationName
@@ -149,7 +149,7 @@ class Organization extends Component {
       console.log(localStorage.getItem("access_token"));
     }
     componentDidMount(){
-      axios.get(`http://localhost:3001/graphql?query=${organizationQuery}`).then(res=>{
+      axios.get(`http://localhost:3000/graphql?query=${organizationQuery}`).then(res=>{
         if(res.data.errors){
           localStorage.clear()
           this.props.history.push('/auth/login');
@@ -222,7 +222,7 @@ class Organization extends Component {
       this.setState({openUpdate:true})
     }
     fetchData = ()=>{
-      axios.get(`http://localhost:3001/graphql?query=${organizationQuery}`).then(res=>{
+      axios.get(`http://localhost:3000/graphql?query=${organizationQuery}`).then(res=>{
         if(res.data.errors){
           localStorage.clear()
           this.props.history.push('/auth/login');
@@ -297,7 +297,7 @@ class Organization extends Component {
         return (
           <GridContainer>
             <GridItem>
-              <Button color='success' onClick={this.openDialogAdd}>Thêm tổ chức</Button>
+              <Button color='success' onClick={this.openDialogAdd}>Thêm người dùng</Button>
             </GridItem> 
             <GridItem xs={12}>
               <Card>

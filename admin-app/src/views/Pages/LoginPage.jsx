@@ -55,7 +55,7 @@ class LoginPage extends React.Component {
     await axios({
       method: "post",
       //api
-      url: `http://localhost:3001/auth/login`,
+      url: `http://localhost:3000/auth/api/login`,
       data: {
         username: this.emailInput.getValue(),
         password: this.passwordInput.getValue(),
@@ -65,7 +65,7 @@ class LoginPage extends React.Component {
       let token = res.data.access_token;
       axios.defaults.headers.common['Authorization'] = res.data.access_token;
       localStorage.setItem('access_token', token);
-      this.props.history.push("/event-management");
+      this.props.history.push("/post-management");
     }).catch(error=>{
       if (error.message === "Network Error")
       {

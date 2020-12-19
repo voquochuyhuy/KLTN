@@ -60,7 +60,7 @@ class Statistic extends Component {
       console.log(localStorage.getItem("access_token"));
     }
     componentDidMount(){
-      axios.get(`http://localhost:3001/graphql?query=${statisticQuery}`).then(res=>{
+      axios.get(`http://localhost:3000/graphql?query=${statisticQuery}`).then(res=>{
         if(res.data.errors){
           localStorage.clear()
           this.props.history.push('/auth/login');
@@ -142,7 +142,7 @@ class Statistic extends Component {
       this.setState({id:""})
     }
     fetchData = ()=>{
-      axios.get(`http://localhost:3001/graphql?query=${statisticQuery}`).then(res=>{
+      axios.get(`http://localhost:3000/graphql?query=${statisticQuery}`).then(res=>{
         var data = res.data.data.getStatisticals;
         console.log(res.data);
         let statistical = data.map((statistical,key)=>{
@@ -203,7 +203,7 @@ class Statistic extends Component {
       })
     }
     onConfirm = (eventName,cost,numberOfParti,revenue,note)=>{
-      axios.post(`http://localhost:3001/graphql`, {
+      axios.post(`http://localhost:3000/graphql`, {
           query: `mutation createStatisticalMutation($statistical:CreateStatisticalInput)  {
                   createStatistical(createStatisticalInput:$statistical){
                       eventName
@@ -236,7 +236,7 @@ class Statistic extends Component {
       
     }
     onConfirmDelete = ()=>{
-      axios.post(`http://localhost:3001/graphql`, {
+      axios.post(`http://localhost:3000/graphql`, {
         query: `mutation deleteStatisticalMutation($statistical:Int)  {
                 deleteStatistical(deleteStatisticalInput:$statistical){
                     eventName
@@ -255,7 +255,7 @@ class Statistic extends Component {
     
     }
     onConfirmUpdate = (eventName,cost,numberOfParti,revenue,note)=>{
-      axios.post(`http://localhost:3001/graphql`, {
+      axios.post(`http://localhost:3000/graphql`, {
           query: `mutation updateStatisticalMutation ($statistical : UpdateStatisticalInput) {
             updateStatistical ( updateStatisticalInput : $statistical ){
                 eventName
@@ -294,9 +294,9 @@ class Statistic extends Component {
         const { classes } = this.props;
         return (
           <GridContainer>
-            <GridItem>
+            {/* <GridItem>
               <Button color='success' onClick={this.openDialogAdd}>Thêm số liệu</Button>
-            </GridItem> 
+            </GridItem>  */}
             <GridItem xs={12}>
               <Card>
                 <CardHeader color="primary" icon>
