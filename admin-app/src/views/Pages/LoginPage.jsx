@@ -3,26 +3,19 @@ import PropTypes from "prop-types";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import EmailInput from '../DA-CN/components/CustomInputEmail.jsx';
-import CustomInputPassword from "../DA-CN/components/CustomInputPassword.jsx";
-import axios from  "axios";
+import EmailInput from "../KLTN/components/CustomInputEmail.jsx";
+import CustomInputPassword from "../KLTN/components/CustomInputPassword.jsx";
+import axios from "axios";
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
 class LoginPage extends React.Component {
@@ -30,7 +23,7 @@ class LoginPage extends React.Component {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
     };
   }
   componentDidMount() {
@@ -46,12 +39,11 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
-  verifyData = () =>{
+  verifyData = () => {
     return this.emailInput.verifyInput() && this.passwordInput.verifyInput();
-  }
-  submit =async ()=>{
-    if(!this.verifyData()) return
-    let role, token;
+  };
+  submit = async () => {
+    if (!this.verifyData()) return;
     await axios({
       method: "post",
       //api
@@ -60,22 +52,21 @@ class LoginPage extends React.Component {
         username: this.emailInput.getValue(),
         password: this.passwordInput.getValue(),
       },
-    }).then(async (res) => {
-      console.log(res,res.data);
-      let token = res.data.access_token;
-      axios.defaults.headers.common['Authorization'] = res.data.access_token;
-      localStorage.setItem('access_token', token);
-      this.props.history.push("/post-management");
-    }).catch(error=>{
-      if (error.message === "Network Error")
-      {
-        alert('Server is down');
-        return;
-      }
-      alert(`Email or password is not valid`);
-    });
-   
-  }
+    })
+      .then(async (res) => {
+        let token = res.data.access_token;
+        axios.defaults.headers.common["Authorization"] = res.data.access_token;
+        localStorage.setItem("access_token", token);
+        this.props.history.push("/post-management");
+      })
+      .catch((error) => {
+        if (error.message === "Network Error") {
+          alert("Server is down");
+          return;
+        }
+        alert(`Email or password is not valid`);
+      });
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -123,16 +114,20 @@ class LoginPage extends React.Component {
                       )
                     }}
                   /> */}
-                  <EmailInput 
-                    ref={ref => this.emailInput = ref}
-                  />
+                  <EmailInput ref={(ref) => (this.emailInput = ref)} />
 
-                  <CustomInputPassword 
-                    ref={ref => this.passwordInput = ref}
+                  <CustomInputPassword
+                    ref={(ref) => (this.passwordInput = ref)}
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block onClick={this.submit}>
+                  <Button
+                    color="rose"
+                    simple
+                    size="lg"
+                    block
+                    onClick={this.submit}
+                  >
                     Let's Go
                   </Button>
                 </CardFooter>
@@ -146,7 +141,7 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(loginPageStyle)(LoginPage);
