@@ -54,8 +54,8 @@ class LoginPage extends React.Component {
       },
     })
       .then(async (res) => {
-        let token = res.data.access_token;
-        axios.defaults.headers.common["Authorization"] = res.data.access_token;
+        let token = res.data.accessToken;
+        axios.defaults.headers.common["Authorization"] = res.data.accessToken;
         localStorage.setItem("access_token", token);
         this.props.history.push("/post-management");
       })

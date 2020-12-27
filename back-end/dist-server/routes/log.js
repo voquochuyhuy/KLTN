@@ -25,25 +25,23 @@ var router = _express["default"].Router();
 /* GET LOG */
 
 
-router.post("/api", /*#__PURE__*/function () {
+router.get("/api", /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
-    var limit, data;
+    var data;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            limit = req.body.limit;
-            if (!limit) res.status(400);
-            _context.next = 4;
-            return (0, _databaseConnection["default"])("SELECT TOP ".concat(limit, " * FROM Logs ORDER BY Score DESC"));
+            _context.next = 2;
+            return (0, _databaseConnection["default"])("SELECT * FROM Log Inner join User on Log.userID = User.id");
 
-          case 4:
+          case 2:
             data = _context.sent;
             res.send({
               data: data
             });
 
-          case 6:
+          case 4:
           case "end":
             return _context.stop();
         }
@@ -59,16 +57,16 @@ router.post("/api", /*#__PURE__*/function () {
 
 router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res, next) {
-    var _req$body, typeId, userId, CreationDate, queryString, data;
+    var _req$body, typeId, userId, action, CreationDate, queryString, data;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, typeId = _req$body.typeId, userId = _req$body.userId;
+            _req$body = req.body, typeId = _req$body.typeId, userId = _req$body.userId, action = _req$body.action;
             if (!typeId || !userId) res.status(400);
             CreationDate = (0, _moment["default"])(new Date()).format('YYYY-MM-DD hh-mm-ss');
-            queryString = "insert into Logs values(".concat(typeId, ",").concat(userId, ",'").concat(CreationDate, ")");
+            queryString = "insert into Log values (".concat(userId, ",").concat(action, ",'").concat(CreationDate, ")");
             _context2.next = 6;
             return (0, _databaseConnection["default"])(queryString);
 

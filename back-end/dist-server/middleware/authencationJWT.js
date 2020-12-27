@@ -20,7 +20,7 @@ var authenticateJWT = function authenticateJWT(req, res, next) {
   var authHeader = req.headers.authorization;
 
   if (authHeader) {
-    var token = authHeader.split(' ')[1];
+    var token = authHeader;
 
     _jsonwebtoken["default"].verify(token, accessTokenSecret, function (err, user) {
       if (err) {

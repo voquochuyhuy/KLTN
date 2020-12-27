@@ -6,9 +6,9 @@ import { authenticateJWT } from "../middleware/authencationJWT";
 
 var router = express.Router();
 
-/* GET lastest-post */
+/* GET reported-post */
 router.get("/api/lastest-posts", async function (req, res, next) {
-  const data = await runQuery(`SELECT TOP 10 * FROM Posts ORDER BY Id DESC`);
+  const data = await runQuery(`SELECT * FROM Report`);
   res.send({ data: data });
 });
 
@@ -47,7 +47,6 @@ router.post("/api/", authenticateJWT, async function (req, res, next) {
 /* UPDATE post */
 router.put("/api/", authenticateJWT, async function (req, res, next) {
   const { id, title, tags, isAudioQuestion, content } = req.body;
-  console.log(id, title, tags, isAudioQuestion, content)
   let queryString = `UPDATE Posts SET `;
   if (title) {
     queryString = queryString.concat(`Title = '${title}', `);

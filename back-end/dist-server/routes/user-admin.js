@@ -25,25 +25,23 @@ var router = _express["default"].Router();
 /* GET Bad Post */
 
 
-router.post("/api/bad-posts", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
+router.get("/api/bad-posts", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
-    var _req$body, limit, fromRow, data;
-
+    var data;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _req$body = req.body, limit = _req$body.limit, fromRow = _req$body.fromRow;
-            _context.next = 3;
-            return (0, _databaseConnection["default"])("SELECT TOP ".concat(limit, " * FROM Posts where Id > ").concat(fromRow, " and "));
+            _context.next = 2;
+            return (0, _databaseConnection["default"])("SELECT * FROM Report Inner join User on Report.userID = User.id");
 
-          case 3:
+          case 2:
             data = _context.sent;
             res.send({
               data: data
             });
 
-          case 5:
+          case 4:
           case "end":
             return _context.stop();
         }
@@ -65,7 +63,7 @@ router.get("/api/admin-list", _authencationJWT.authenticateJWT, /*#__PURE__*/fun
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return (0, _databaseConnection["default"])("SELECT * FROM UserAdmin ");
+            return (0, _databaseConnection["default"])("SELECT * FROM Admin ");
 
           case 2:
             data = _context2.sent;
@@ -95,7 +93,7 @@ router.get("/api/user-list", _authencationJWT.authenticateJWT, /*#__PURE__*/func
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return (0, _databaseConnection["default"])("SELECT * FROM Users");
+            return (0, _databaseConnection["default"])("SELECT * FROM User");
 
           case 2:
             data = _context3.sent;
@@ -155,13 +153,13 @@ router.get("/api/:id", _authencationJWT.authenticateJWT, /*#__PURE__*/function (
 
 router.post("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res, next) {
-    var _req$body2, Username, Password, queryString, data;
+    var _req$body, Username, Password, queryString, data;
 
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _req$body2 = req.body, Username = _req$body2.Username, Password = _req$body2.Password;
+            _req$body = req.body, Username = _req$body.Username, Password = _req$body.Password;
             if (!Username || !Password) res.status(400);
             queryString = "insert into UserAdmin values ('".concat(Username, "','").concat(Password, "')");
             _context5.next = 5;

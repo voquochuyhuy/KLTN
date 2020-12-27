@@ -22,7 +22,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var router = _express["default"].Router();
-/* GET lastest-post */
+/* GET reported-post */
 
 
 router.get("/api/lastest-posts", /*#__PURE__*/function () {
@@ -33,7 +33,7 @@ router.get("/api/lastest-posts", /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return (0, _databaseConnection["default"])("SELECT TOP 10 * FROM Posts ORDER BY Id DESC");
+            return (0, _databaseConnection["default"])("SELECT * FROM Report");
 
           case 2:
             data = _context.sent;
@@ -136,7 +136,6 @@ router.put("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _req$body2 = req.body, id = _req$body2.id, title = _req$body2.title, tags = _req$body2.tags, isAudioQuestion = _req$body2.isAudioQuestion, content = _req$body2.content;
-            console.log(id, title, tags, isAudioQuestion, content);
             queryString = "UPDATE Posts SET ";
 
             if (title) {
@@ -157,16 +156,16 @@ router.put("/api/", _authencationJWT.authenticateJWT, /*#__PURE__*/function () {
 
             lastActivityDate = (0, _moment["default"])(new Date()).format('YYYY-MM-DD');
             queryString = queryString.concat("LastActivityDate = '".concat(lastActivityDate, "' WHERE id = ").concat(id));
-            _context4.next = 11;
+            _context4.next = 10;
             return (0, _databaseConnection["default"])(queryString);
 
-          case 11:
+          case 10:
             data = _context4.sent;
             res.send({
               data: data
             });
 
-          case 13:
+          case 12:
           case "end":
             return _context4.stop();
         }

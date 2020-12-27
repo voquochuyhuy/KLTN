@@ -7,21 +7,20 @@ import { authenticateJWT } from "../middleware/authencationJWT";
 var router = express.Router();
 
 /* GET Bad Post */
-router.post("/api/bad-posts",authenticateJWT, async function (req, res, next) {
-  const {limit,fromRow} = req.body;
-  const data = await runQuery(`SELECT TOP ${limit} * FROM Posts where Id > ${fromRow} and `);
+router.get("/api/bad-posts",authenticateJWT, async function (req, res, next) {
+  const data = await runQuery(`SELECT * FROM Report Inner join User on Report.userID = User.id`);
   res.send({ data: data });
 });
 
 /* GET User Admin List */
 router.get("/api/admin-list",authenticateJWT, async function (req, res, next) {
-  const data = await runQuery(`SELECT * FROM UserAdmin `);
+  const data = await runQuery(`SELECT * FROM Admin `);
   res.send({ data: data });
 });
 
 /* GET User List */
 router.get("/api/user-list",authenticateJWT, async function (req, res, next) {
-  const data = await runQuery(`SELECT * FROM Users`);
+  const data = await runQuery(`SELECT * FROM User`);
   res.send({ data: data });
 });
 

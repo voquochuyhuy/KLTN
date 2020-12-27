@@ -9,13 +9,12 @@ var router = express.Router();
 /* LOGIN */
 router.post('/api/login', async function(req, res, next) {
     const { username, password } = req.body;
-    const data = await runQuery(`SELECT * FROM Users WHERE CONVERT(VARCHAR, Email) = '${username}' AND CONVERT(VARCHAR, PasswordHash) = '${password}'`);
-    console.log(req.body,data);
+    const data = await runQuery(`SELECT * FROM Admin WHERE Email = "${username}" AND Password = "${password}"`);
     if (data) {
-        const accessToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, accessTokenSecret, { expiresIn: '20m' });
-        const refreshToken = jwt.sign({ username: data.recordset[0].username, role: 1 }, refreshTokenSecret);
+        const accessToken = jwt.sign({ username: data[0].username, role: 1 }, accessTokenSecret, { expiresIn: '20m' });
+        const refreshToken = jwt.sign({ username: data[0].username, role: 1 }, refreshTokenSecret);
         refreshTokens.push(refreshToken);
-        const userData = data.recordset[0];
+        const userData = data[0];
         userData.PasswordHash = '';
         userData.Account = '';
         res.json({
@@ -56,3 +55,4 @@ router.post('/api/logout', async function(req, res, next) {
 });
 
 export default router;
+
